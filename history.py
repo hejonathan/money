@@ -45,7 +45,10 @@ def graph_historical_data(dataframe):
     fig.show()
 
 
-df = search_historical_data(client, 'GOOG', '2022-01-01', '2022-03-28')
+df = search_historical_data(client,
+                            input('enter company code:'),
+                            input('enter start date: YYYY-MM-DD'),
+                            input('enter start date: YYYY-MM-DD'))
 df = df.reset_index(level=[0], drop=True)
 graph_historical_data(df)
 
