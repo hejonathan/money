@@ -16,7 +16,7 @@ class Hammer(Strategy):
 
         self.signal = signal
         self.start = start
-        self.sleeptime = "20s"
+        self.sleeptime = "1s"
 
         def on_trading_iteration(self):
 
@@ -53,13 +53,22 @@ class Hammer(Strategy):
             fib = absolute_movement*.382
             lowerbound = last_high_val - fib
 
-            if last_open_val > lowerbound and last_open_val-last_value_close > 0:
-                if last_value_close > first_value_close:
-                    stop_loss_signal = first_value_close - latest_atr
-                    take_profit_signal = first_value_close + latest_atr*1.71
-                    buy_signal = first_value_close
+            hold = True
+            if hold:
+                if last_open_val > lowerbound and last_open_val-last_value_close > 0:
+                    if last_value_close > first_value_close:
+                        stop_loss_signal = first_value_close - latest_atr
+                        take_profit_signal = first_value_close + latest_atr*1.71
+                        buy_signal = first_value_close
+                        hold = False
+                        buy_order = self.create_order("GLD", 1, "buy", limit_price=buy_signal)
+                        sell_order = self.create_order("GLD", 1, "sell", take_profit_price=take_profit_signal,
+                                                       stop_loss_price=stop_loss_signal)
             else:
                 buy_signal = None
+                stop_loss_signal = None
+                take_profit_signal = None
+
 
 
 
