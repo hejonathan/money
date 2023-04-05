@@ -4,3 +4,10 @@ matplotlib
 pandas
 cufflinks
 chart_studio
+
+lumibot
+numpy
+pandas-datareader
+quantstats
+requests
+yfinance
