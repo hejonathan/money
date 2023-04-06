@@ -4,6 +4,9 @@ from lumibot.backtesting import YahooDataBacktesting
 from lumibot.brokers import Alpaca
 from lumibot.strategies import Strategy
 from lumibot.traders import Trader
+from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import GetAssetsRequest
+
 import numpy as np
 import pandas as pd
 import yfinance as yf
@@ -11,6 +14,9 @@ import yfinance as yf
 class Hammer(Strategy):
 
     def initialize(self):
+        risk = input('enter percentage willing to risk per trade:')
+
+
         signal = None
         start = "2021-01-01"
 
@@ -53,7 +59,20 @@ class Hammer(Strategy):
             fib = absolute_movement*.382
             lowerbound = last_high_val - fib
 
+            # account
+            trading_client = TradingClient('PK2XNKDSJH4PVPCYDK8E', 'f5cD1kbR3p5RRfgvNgDiQ09qRpi4LCYmPZprl3KM')
+            account = trading_client.get_account()
+            balance = account.equity
+
+
             hold = True
+
+            symbol = "GLD"
+            position = self.get_position(symbol)
+            if position is None:
+                hold = True
+
+
             if hold:
                 if last_open_val > lowerbound and last_open_val-last_value_close > 0:
                     if last_value_close > first_value_close:
@@ -61,15 +80,21 @@ class Hammer(Strategy):
                         take_profit_signal = first_value_close + latest_atr*1.71
                         buy_signal = first_value_close
                         hold = False
-                        buy_order = self.create_order("GLD", 1, "buy", limit_price=buy_signal)
-                        sell_order = self.create_order("GLD", 1, "sell", take_profit_price=take_profit_signal,
+
+                        # calculating position size
+                        percent_lost = (buy_signal/stop_loss_signal)/100
+                        max_risk = account.equity*percent_lost
+                        quantity = max_risk/buy_signal
+
+                        buy_order = self.create_order("GLD", quantity, "buy", limit_price=buy_signal)
+                        sell_order = self.create_order("GLD", quantity, "sell", take_profit_price=take_profit_signal,
                                                        stop_loss_price=stop_loss_signal)
+                        self.submit_order(buy_order)
+                        self.submit_order(sell_order)
             else:
                 buy_signal = None
                 stop_loss_signal = None
                 take_profit_signal = None
-
-
 
 
 
