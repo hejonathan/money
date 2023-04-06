@@ -82,8 +82,7 @@ class Hammer(Strategy):
                         hold = False
 
                         # calculating position size
-                        percent_lost = (buy_signal/stop_loss_signal)/100
-                        max_risk = account.equity*percent_lost
+                        max_risk = account.equity*risk
                         quantity = max_risk/buy_signal
 
                         buy_order = self.create_order("GLD", quantity, "buy", limit_price=buy_signal)
