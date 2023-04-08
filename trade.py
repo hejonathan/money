@@ -16,7 +16,7 @@ Import strategies here
 '''
 from strategies.hammer import Hammer
 from strategies.lumibot_buy_hold import BuyHold
-from strategies.real_data_trading import Trader
+from strategies.nine_cross_twenty import Trader
 
 if __name__ == "__main__":
     trade = False

@@ -65,24 +65,24 @@ class Hammer(Strategy):
             balance = account.equity
 
 
-            hold = True
+            not_hold = True
 
             symbol = "GLD"
             position = self.get_position(symbol)
             if position is None:
-                hold = True
+                not_hold = True
 
 
-            if hold:
+            if not_hold:
                 if last_open_val > lowerbound and last_open_val-last_value_close > 0:
-                    if last_value_close > first_value_close:
+                    if last_value_close < first_value_close:
                         stop_loss_signal = first_value_close - latest_atr
                         take_profit_signal = first_value_close + latest_atr*1.71
                         buy_signal = first_value_close
-                        hold = False
+                        not_hold = False
 
                         # calculating position size
-                        max_risk = account.equity*risk
+                        max_risk = account.cash*risk
                         quantity = max_risk/buy_signal
 
                         buy_order = self.create_order("GLD", quantity, "buy", limit_price=buy_signal)
