@@ -7,7 +7,6 @@ from lumibot.traders import Trader
 
 
 class BuyHold(Strategy):
-
     def initialize(self):
         self.sleeptime = "1D"
 
@@ -18,21 +17,3 @@ class BuyHold(Strategy):
             quantity = self.cash // price
             order = self.create_order(symbol, quantity, "buy")
             self.submit_order(order)
-
-
-if __name__ == "__main__":
-    trade = False
-    if trade:
-        broker = Alpaca(ALPACA_CONFIG)
-        strategy = BuyHold(broker=broker)
-        trader = Trader()
-        trader.add_strategy(strategy)
-        trader.run_all()
-    else:
-        start = datetime(2022, 1, 1)
-        end = datetime(2022, 12, 31)
-        BuyHold.backtest(
-            YahooDataBacktesting,
-            start,
-            end
-        )

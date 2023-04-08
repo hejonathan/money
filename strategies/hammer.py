@@ -95,25 +95,3 @@ class Hammer(Strategy):
                 stop_loss_signal = None
                 take_profit_signal = None
 
-
-
-if __name__ == "__main__":
-    trade = False
-    if trade:
-        broker = Alpaca(ALPACA_CONFIG)
-        strategy = Hammer(broker=broker)
-        bot = Trader()
-        bot.add_strategy(strategy)
-        bot.run_all()
-    else:
-        start = datetime(2022, 1, 1)
-        end = datetime(2022, 12, 31)
-        Hammer.backtest(
-            YahooDataBacktesting,
-            start,
-            end
-        )
-
-
-
-

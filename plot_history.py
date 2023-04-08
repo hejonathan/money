@@ -9,8 +9,6 @@ import pandas as pd
 import cufflinks as cf
 cf.go_offline()
 
-from debug import debug
-
 
 API_KEY = "PK2XNKDSJH4PVPCYDK8E"
 SECRET_KEY = "f5cD1kbR3p5RRfgvNgDiQ09qRpi4LCYmPZprl3KM"
