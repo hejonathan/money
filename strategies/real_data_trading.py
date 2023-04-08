@@ -49,21 +49,3 @@ class Trend(Strategy):
                 self.sell_all()
             order = self.create_order(symbol, quantity, "sell")
             self.submit_order(order)
-
-
-if __name__ == "__main__":
-    trade = False
-    if trade:
-        broker = Alpaca(ALPACA_CONFIG)
-        strategy = Trend(broker=broker)
-        bot = Trader()
-        bot.add_strategy(strategy)
-        bot.run_all()
-    else:
-        start = datetime(2022, 1, 1)
-        end = datetime(2022, 12, 31)
-        Trend.backtest(
-            YahooDataBacktesting,
-            start,
-            end
-        )
