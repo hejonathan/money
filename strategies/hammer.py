@@ -82,8 +82,8 @@ class Hammer(Strategy):
                         not_hold = False
 
                         # calculating position size
-                        max_risk = account.cash*risk
-                        quantity = max_risk/buy_signal
+                        max_risk = account.cash*risk/100
+                        quantity = max_risk//latest_atr
 
                         buy_order = self.create_order("GLD", quantity, "buy", limit_price=buy_signal)
                         sell_order = self.create_order("GLD", quantity, "sell", take_profit_price=take_profit_signal,
