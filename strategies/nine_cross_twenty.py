@@ -11,12 +11,7 @@ import yfinance as yf
 
 class Trend(Strategy):
 
-    def initialize(self):
-        signal = None
-        start = "2022-01-01"
-
-        self.signal = signal
-        self.start = start
+    def initialize(self, **kwargs):
         self.sleeptime = "1D"
 
     # minute bars, make functions
@@ -29,21 +24,21 @@ class Trend(Strategy):
         gld['21-day'] = gld['close'].rolling(21).mean()
         gld['Signal'] = np.where(np.logical_and(gld['9-day'] > gld['21-day'],
                                                 gld['9-day'].shift(1) < gld['21-day'].shift(1)),
-                                 1, None)
+                                 1, 0)
         gld['Signal'] = np.where(np.logical_and(gld['9-day'] < gld['21-day'],
                                                 gld['9-day'].shift(1) > gld['21-day'].shift(1)),
                                  -1, gld['Signal'])
-        self.signal = gld.iloc[-1].Signal
+        signal = gld.iloc[-1].Signal
 
         symbol = "GLD"
         quantity = 200
-        if self.signal == 1:
+        if signal == 1:
             pos = self.get_position(symbol)
             if pos is not None:
                 self.sell_all()
             order = self.create_order(symbol, quantity, "buy")
             self.submit_order(order)
-        elif self.signal == -1:
+        elif signal == -1:
             pos = self.get_position(symbol)
             if pos is not None:
                 self.sell_all()

@@ -27,6 +27,7 @@ class Test:
         print("Start date: ", self.start_date)
         print("End date: ", self.end_date)
 
+
 # testing
 test1 = Test()
 test1.get_comp_list()
