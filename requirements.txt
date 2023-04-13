@@ -10,5 +10,6 @@ numpy
 pandas-datareader
 quantstats
 requests
-yfinance
+mplfinance
+yfinance==0.2.17
 vectorbt
