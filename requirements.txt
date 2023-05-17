@@ -1,15 +1,16 @@
 alpaca-py
-plotly
-matplotlib
-pandas
-cufflinks
+plotly~=5.14.0
+matplotlib~=3.7.1
+pandas~=1.5.3
+cufflinks~=0.17.3
 chart_studio
 
-lumibot
-numpy
+lumibot~=1.6.0
+numpy~=1.23.5
 pandas-datareader
 quantstats
 requests
-mplfinance
+mplfinance~=0.12.9b7
 yfinance==0.2.17
 vectorbt
+numba
